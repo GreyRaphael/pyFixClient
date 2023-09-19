@@ -1,2 +1,4 @@
 log/
 store/
+__pycache__/
+.vscode/
