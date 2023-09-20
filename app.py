@@ -34,7 +34,15 @@ class FixClient(fix.Application):
             else:
                 pass
 
-    def send_order(self, secucode: str, direction: int, price: float, volume: int, price_type: int = 2, handle_type: str = "DMA"):
+    def send_order(
+        self,
+        secucode: str,
+        direction: int,
+        price: float,
+        volume: int,
+        price_type: int = 2,
+        handle_type: str = "DMA",
+    ):
         code, mkt = secucode.split(".")
         direction = fix.Side_BUY if direction == 1 else fix.Side_SELL
         handle_inst = 3 if handle_type == "CARE" else 1  # 1: DAM; 3: CARE
@@ -59,6 +67,26 @@ class FixClient(fix.Application):
         # order_fields.setField(fix.SecurityExchange(mkt))
         fix.Session.sendToTarget(order_fields, self.session_id)
         print("order string===>", order_fields.toString())
+
+    def cancel_order(self, order_id: str):
+        cancel_fields = fix.Message()
+        cancel_fields.getHeader().setField(fix.MsgType("F"))  # F, Order Cancel Request
+        cancel_fields.setField(fix.Account("122701"))
+        cancel_fields.setField(fix.ClOrdID(order_id))
+        # cancel_fields.setField(fix.OrderQty())
+        cancel_fields.setField(fix.OrdType("2"))
+        # cancel_fields.setField(fix.OrigClOrdID(order_id))
+        # cancel_fields.setField(fix.Side(direction))
+        # cancel_fields.setField(fix.Symbol(code))
+        trstime = fix.TransactTime()
+        trstime.setString(datetime.utcnow().strftime("%Y%m%d-%H:%M:%S"))
+        cancel_fields.setField(trstime)
+        # cancel_fields.setField(fix.SecurityType('CS'))
+        # cancel_fields.setField(fix.SecurityExchange(mkt))
+        # cancel_fields.setField(fix.HandlInst("1"))
+        # cancel_fields.setField(fix.TimeInForce('0'))
+        # cancel_fields.setField(fix.Price(price))
+        # cancel_fields.setField(fix.Currency("CNY"))
 
     def onCreate(self, sessionID):
         print(f"session  crated: {sessionID}")
