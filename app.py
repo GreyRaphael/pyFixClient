@@ -30,7 +30,8 @@ class FixClient(fix.Application):
             elif op == "o":
                 self.send_order("000001.SZ", 1, 11.18, 200)
             elif op == "c":
-                pass
+                order_id = input("input id for cancel:\n")
+                self.cancel_order(order_id)
             else:
                 pass
 
