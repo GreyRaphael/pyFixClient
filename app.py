@@ -88,6 +88,13 @@ class FixClient(fix.Application):
         # cancel_fields.setField(fix.TimeInForce('0'))
         # cancel_fields.setField(fix.Price(price))
         # cancel_fields.setField(fix.Currency("CNY"))
+        fix.Session.sendToTarget(cancel_fields, self.session_id)
+        print("cancel order string===>", cancel_fields.toString())
+
+    def onMessage(self, sessionID, msg):
+        print(f"session  message: {msg.toString()}")
+        # if msg.getHeader().getField(fix.MsgType()).getValue() == "D":
+        #     self.onOrder(sessionID, msg)
 
     def onCreate(self, sessionID):
         print(f"session  crated: {sessionID}")
