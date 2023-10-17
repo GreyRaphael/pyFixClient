@@ -1,0 +1,21 @@
+{
+    "8": "BeginString",
+    "35": "MsgType",
+    "49": "SenderCompID",
+    "50": "SenderSubID",
+    "52": "SendingTime",
+    "56": "TargetCompID",
+    "57": "TargetSubID",
+    "115": "OnBehalfOfCompID",
+    "116": "OnBehalfOfSubID",
+    "1": "Account",
+    "11": "ClOrdID",
+    "38": "OrderQty",
+    "41": "OrigClOrdID",
+    "54": "Side",
+    "55": "Symbol",
+    "58": "Text",
+    "60": "TransactTime",
+    "100": "ExDestination",
+    "167": "SecurityType"
+}

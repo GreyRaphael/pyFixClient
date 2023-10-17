@@ -1,0 +1,22 @@
+{
+    "8": "BeginString",
+    "35": "MsgType",
+    "49": "SenderCompID",
+    "50": "SenderSubID",
+    "52": "SendingTime",
+    "56": "TargetCompID",
+    "57": "TargetSubID",
+    "128": "DeliverToCompID",
+    "129": "DeliverToSubID",
+    "1": "Account",
+    "11": "ClOrdID",
+    "37": "OrderID",
+    "39": "OrdStatus",
+    "41": "OrigClOrdID",
+    "54": "Side",
+    "55": "Symbol",
+    "58": "Text",
+    "60": "TransactTime",
+    "102": "CxlRejReason",
+    "434": "CxlRejResponseTo"
+}
