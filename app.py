@@ -2,7 +2,6 @@ import quickfix as fix
 import time
 import random
 from datetime import datetime
-import json
 
 SEND_DICT = {
     "8": "BeginString",
@@ -90,12 +89,28 @@ class FixClient(fix.Application):
 
     def choose_option(self):
         while True:
-            op = input("o:order, c:cancel:\n").lower()
+            op = input("o:order, c:cancel, s:strategy:\n").lower()
             if op == "o":
-                # self.send_order("000001.SZ", 1, 11.8, 100)
-                self.send_order("600000.SS", 1, 7.15, 100)
+                pass
+                # for i in range(10):
+                #     # self.send_order("600022.SS", 1, 1.31, 100)
+                #     # self.send_order("600022.SS", 1, 1.31, 100)
+                #     # self.send_order("600022.SS", 1, 1.31, 100)
+                #     self.send_order("688538.SS", 1, 2.09, 200)
+                # self.send_order("688538.SS", 1, 2.09, 200)
+                # self.send_order("300116.SZ", 1, 1.14, 100)
+                # self.send_order("300116.SZ", 1, 1.14, 100)
+                # self.send_order("300116.SZ", 1, 1.14, 100)
+                # self.send_order("000981.SZ", 1, 1.3, 100)
+                # self.send_order("000981.SZ", 1, 1.3, 100)
             elif op == "c":
                 self.cancel_all()
+            elif op == "s":
+                for _ in range(10):
+                    origin_order_id = self.send_order("688538.SS", 1, 2.12, 200)
+                    time.sleep(1)
+                    self.cancel_order(origin_order_id)
+                    time.sleep(1)
             else:
                 pass
 
@@ -113,7 +128,7 @@ class FixClient(fix.Application):
 
         order_fields = fix.Message()
         order_fields.getHeader().setField(fix.MsgType("D"))  # D, New Order Single
-        order_fields.setField(fix.Account("122701"))
+        order_fields.setField(fix.Account("10003001"))
         rand_id = random.randint(1000000, 2000000)
         order_fields.setField(fix.ClOrdID(str(rand_id)))
         order_fields.setField(fix.Currency("CNY"))
@@ -130,11 +145,12 @@ class FixClient(fix.Application):
         order_fields.setField(fix.SecurityType("CS"))
         order_fields.setField(fix.SecurityExchange(mkt))  # SS,SZ
         fix.Session.sendToTarget(order_fields, self.session_id)
+        return str(rand_id)
 
     def cancel_order(self, origin_order_id: str):
         cancel_fields = fix.Message()
         cancel_fields.getHeader().setField(fix.MsgType("F"))  # F, Order Cancel Request
-        cancel_fields.setField(fix.Account("122701"))
+        cancel_fields.setField(fix.Account("10003001"))
         rand_id = random.randint(1000000, 2000000)
         cancel_fields.setField(fix.ClOrdID(str(rand_id)))
         cancel_fields.setField(fix.OrderQty(100))
@@ -188,8 +204,7 @@ class FixClient(fix.Application):
             for item in fields:
                 if item:
                     key, value = item.split("=")
-                    # name = EXECTION_DICT.get(key, key)
-                    name = EXECTION_DICT[key]
+                    name = EXECTION_DICT.get(key, key)
                     record[name] = value
             print(f"APP RECEIVE: {record}")
             self.order_ids.add(record["ClOrdID"])
